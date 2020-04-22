@@ -1,0 +1,15 @@
+{
+	"name": "IBTTALabGroupChaincode",
+	"version": "1.0.0",
+	"description": "IBTTALabGroupChaincode chaincode implemented in node.js",
+	"engines": {
+		"node": ">=8.4.0",
+		"npm": ">=5.3.0"
+	},
+	"scripts": { "start" : "node IBTTALabGroupChaincode.js" },
+	"engine-strict": true,
+	"license": "Apache-2.0",
+	"dependencies": {
+		"fabric-shim": "unstable"
+	}
+}
