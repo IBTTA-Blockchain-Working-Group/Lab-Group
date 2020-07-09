@@ -168,8 +168,6 @@ var Chaincode = class {
   
   
   async queryTransactionsByHost(stub, args, thisClass) {
-    //   0
-    // 'bob'
     if (args.length < 1) {
       throw new Error('Incorrect number of arguments. Expecting host name.')
     }
