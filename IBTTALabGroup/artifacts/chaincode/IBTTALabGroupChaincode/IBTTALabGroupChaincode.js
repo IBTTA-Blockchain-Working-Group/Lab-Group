@@ -165,8 +165,24 @@ var Chaincode = class {
     console.log(transactionAsBytes.toString());
     return transactionAsBytes;
   }
+  
+  
+  async queryTransactionsByHost(stub, args, thisClass) {
+    //   0
+    // 'bob'
+    if (args.length < 1) {
+      throw new Error('Incorrect number of arguments. Expecting host name.')
+    }
 
-
+    let hostAgency = args[0];
+    let queryString = {};
+    queryString.selector = {};
+    queryString.selector.docType = 'Transaction';
+    queryString.selector.hostAgency = hostAgency;
+    let method = thisClass['getQueryResultForQueryString'];
+    let queryResults = await method(stub, JSON.stringify(queryString), thisClass);
+    return queryResults; //shim.success(queryResults);
+  }
 
 };
 
