@@ -5,7 +5,6 @@ Add data to the State
 peer chaincode invoke -n cc -C channel1 -c '{"Args":["addAccount","12345","1"]}'
 peer chaincode invoke -n cc -C channel1 -c '{"Args":["addAccount","67890","0"]}'
 
-
 ==================== Query Account data =================
 peer chaincode query -C channel1 -n cc -c '{"Args":["queryAccount", "12345"]}'
 
