@@ -1,0 +1,79 @@
+# -----------------------------------------------------------------------------
+#  OS-level files
+# -----------------------------------------------------------------------------
+
+# macOS
+Brewfile.lock.json
+
+
+# -----------------------------------------------------------------------------
+#  OCaml
+# -----------------------------------------------------------------------------
+
+*.annot
+*.cmo
+*.cma
+*.cmi
+*.a
+*.o
+*.cmx
+*.cmxs
+*.cmxa
+
+# ocamlbuild working directory
+_build/
+
+# opam local switch
+_opam/
+
+# esy package manager
+_esy/
+esy.lock/
+
+# ocamlbuild targets
+*.byte
+*.native
+
+# oasis generated files
+setup.data
+setup.log
+/bin
+scilla
+*.install
+.merlin
+*.*--
+
+# ocamldebug init file
+.ocamldebug
+
+.vscode/
+
+# bisect_ppx coverage report
+_coverage/
+coverage.json
+
+# -----------------------------------------------------------------------------
+#  Emacs-generated TeX files
+# -----------------------------------------------------------------------------
+
+_region_.*
+cv/*.out
+*.rel
+*.log
+*.blg
+*.aux
+*.bbl
+*.synctex.gz
+*.out.ps
+.#*
+
+# -----------------------------------------------------------------------------
+# Vi swap files
+# -----------------------------------------------------------------------------
+*.swp
+
+# -----------------------------------------------------------------------------
+#  Scilla library caches
+# -----------------------------------------------------------------------------
+src/stdlib/*.json
+.DS_Store

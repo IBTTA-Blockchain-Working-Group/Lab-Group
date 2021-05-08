@@ -1,0 +1,121 @@
+(* Scilla contract structure *)
+
+scilla_version 0
+
+(* Imports *)
+
+import BoolUtils
+
+(* Library *)
+
+library TollStateGuarantee
+  (* Interest rate in percent. This needs to be read from the local exchange rate*)
+  let annualizedInterestRate = Uint32 5
+  let minimumTimeInterval = Uint32 60 (* Interval in minutes*)
+  type SupportedProtocol = 
+    | IAG
+    | NIOP
+
+  (* Scilla doesn't allow for floating point computations to maintain the security of the language. But it does support Uint64 integer types. Therefore we need to resort to expressing compounding formula in terms of natural numbers.*) 
+
+  type Timestamp = | Timestamp of Uint64
+
+
+  let initTimestamp : Uint64 -> Timestamp =
+    fun (initTime : Uint64) => Timestamp initTime
+
+  (* Toll Guarantee Interval *)
+  let tollGuaranteeInterval : Timestamp =
+    let nH = Uint64 4 in 
+    let nS = Uint64 3600 in
+    let numHours = builtin mul nH nS in
+    initTimestamp numHours
+
+  let timeInterval : Timestamp -> Timestamp -> Timestamp =
+    fun (startTime : Timestamp) => 
+    fun (endTime : Timestamp) =>
+    match startTime with
+      | Timestamp s =>
+        match endTime with
+          | Timestamp e => 
+            let d = builtin sub e s
+            in 
+              Timestamp d
+      end
+    end
+
+  let addTimestamp : Timestamp -> Timestamp -> Timestamp =
+    fun (t1 : Timestamp) =>
+    fun (t2 : Timestamp) => 
+      match t1 with
+        | Timestamp t11 =>
+          match t2 with
+           |Timestamp t12 =>
+            let t13 = builtin add t11 t12 in
+            Timestamp t13
+          end
+      end
+
+  let timeExpired : Timestamp -> Timestamp -> Timestamp -> Bool =
+    fun (startTime : Timestamp) =>
+    fun (currentTime : Timestamp) =>
+    fun (timeInterval : Timestamp) => 
+      match startTime with 
+        | Timestamp s => 
+          match currentTime with
+            | Timestamp c =>
+                let d = addTimestamp startTime timeInterval in
+                let zero = Uint64 0
+                in
+                  match d with
+                    |Timestamp d2 => builtin lt d2 c
+                  end
+          end
+      end
+
+  let eulerConstant = "2.71828182845904523536028747135266249775724709369995"
+
+  (*
+    The formula for continuous compounding is 
+      A = P * (eulerConstant ^ (rate * timeIntervals)). 
+    However, since scilla prevents using floating point numbers, these numbers will need to be converted to integers and then rounded down. TBD.
+  *)
+  let continuousCompounding : Uint64 -> Timestamp -> Timestamp -> Uint64 = 
+  fun (interestRate : Uint64) =>
+  fun (startTime : Timestamp) =>
+  fun (currentTime : Timestamp) =>
+    Uint64 0
+
+(* ********************* Contract definition ****************************************************
+  * This contract represents the state machine for providing* 
+  * guarantee for collection of a toll during inter-state travel.* 
+  * The guarantee depends on the protocol that agencies support. * 
+  * If the agency supports NIOP protocol, then the guarantee is waived. * 
+  * However, if the agency supports IAG then the timer for acquiring the risk starts, typically, 4 * hours. 
+  * If the AwayAgency accepts the risk, then the risk is allocated to the Away Agency. * 
+  However, if the timer expires, the Home Agency accepts the risk. This risk gets added to risk of toll * collection for the time period. * 
+  Note: time period in a distributed, blockchain environment may not align calendar events such as days, * weeks, years, therefore, * 
+  * we propose that the risk be computed using * 
+  * continuous compounding with an annualized rate * 
+  * of interest for the time line. We decide to use * 
+  * 60 minutes as the minimum time interval.  * 
+
+**********************************************************************************)
+
+contract TollStateGuarantee
+  (* Parameters *)
+  (homeAgency: ByStr20,
+    awayAgency : ByStr20,
+    guaranteeGracePeriod : Timestamp,
+    riskAmount : Uint64)
+with
+  let zero = Uint64 0 in
+  builtin lt zero riskAmount
+  => 
+  field tagId : String = ""
+  field startTime : Timestamp
+    = let
+        zero = Uint64 0 in
+      Timestamp zero
+
+
