@@ -1,0 +1,308 @@
+% Timeline
+% Author: Stefan Kottwitz
+% https://www.packtpub.com/hardware-and-creative/latex-cookbook
+
+\documentclass[border=10pt, xcolor={dvipsnames}]{beamer}
+\definecolor{links}{HTML}{2A1B81}
+\hypersetup{colorlinks,linkcolor=,urlcolor=links}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{legalpaper, landscape, margin=1in}
+\usetheme[
+%%% option passed to the outer theme
+%    progressstyle=fixedCircCnt,   % fixedCircCnt, movingCircCnt (moving is default)
+  ]{Feather}
+\usepackage{carlito}
+\usepackage{caladea}
+\usepackage{zi4}
+\usepackage{amsmath}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{adjustbox,lipsum}
+\usepackage{listings}
+\usepackage{calc}
+\usepackage{smartdiagram}
+\setbeamercolor{background canvas}{bg=}%transparent canvas
+
+\usepackage{minted}
+\newminted[code]{haskell}{}
+\newminted[spec]{haskell}{}
+\newminted[code_lua]{lua}{}
+\newminted[spec_lua]{lua}{}
+
+\usepackage{luacode}
+\usecolortheme{beaver}
+\usepackage{tikz}
+\usetikzlibrary{timeline}
+\usetikzlibrary{mindmap,shadows}
+\usetikzlibrary{shapes.gates.logic.US,trees,positioning,arrows}
+\usepackage{pgfplots}
+\pgfplotsset{width=7cm,compat=1.15}
+\directlua{ dofile('ibtta.lua') }
+\newcommand{\dataGrowthTable}[1]{\luadirect{dataGrowthTable(#1)}}
+\newcommand{\dataGrowthTableCoordinates}[1]{\luadirect{dataGrowthTableCoordinates(#1)}}
+\newcommand{\transactionCostTableCoordinates}[1]{\luadirect{transactionCostTableCoordinates(#1)}}
+\newcommand{\cloudCostsTableCoordinates}[1]{\luadirect{cloudCostsTableCoordinates(#1)}}
+\newcommand{\currentTransactionsPerSecond}[1]{\luadirect{currentTransactionsPerSecond(#1)}}
+
+\usepackage[firstpage]{draftwatermark}
+\SetWatermarkText{Work\\In\\Progress}
+\SetWatermarkFontSize{2cm}
+% Change the bar colors:
+\setbeamercolor{Feather}{fg=NavyBlue!20,bg=NavyBlue}
+
+% Change the color of the structural elements:
+\setbeamercolor{structure}{fg=NavyBlue}
+
+% Change the frame title text color:
+\setbeamercolor{frametitle}{fg=black!5}
+
+% Change the normal text colors:
+\setbeamercolor{normal text}{fg=black!75,bg=gray!5}
+
+%% Change the block title colors
+\setbeamercolor{block title}{use=Feather,bg=Feather.fg, fg=black!90}
+
+% colored hyperlinks
+
+\newcommand{\chref}[2]{
+  \href{#1}{{\usebeamercolor[bg]{Feather}#2}}
+}
+
+% Information boxes
+\newcommand*{\info}[4][16.3]{%
+  \node [ annotation, #3, scale=0.65, text width = #1em,
+          inner sep = 2mm ] at (#2) {%
+  \list{$\bullet$}{\topsep=0pt\itemsep=0pt\parsep=0pt
+    \parskip=0pt\labelwidth=8pt\leftmargin=8pt
+    \itemindent=0pt\labelsep=2pt}%
+    #4
+  \endlist
+  };
+}
+%-------------------------------------------------------
+% INFORMATION IN THE TITLE PAGE
+%-------------------------------------------------------
+
+\title[Toll Guarantee Model] % [] is optional - is placed on the bottom of the sidebar on every slide
+{ % is placed on the title page
+      \textbf{Toll Guarantee Model}
+}
+
+\author[ibtta]
+ {
+  Lee D Roche  - Conduent \\
+  \and Dinkar Ganti - Conduent \\
+  \and Jon Ramirez - Conduent \\
+  \and Kirk Straussman - Conduent \\
+  \and Richard Wise  - Conduent \\
+  \and Devang Patel - Kyra Solutions \\
+  \and Kevin Ko - Milligan Partners \\
+  \and Matt Milligan - Milligan Partners \\
+  \and Nikolaos Efstathopoulos - IBI Group \\
+  }
+
+
+\subtitle[Toll Guarantee]
+{
+}
+
+
+\lstdefinestyle{customjava}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  language=Java,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+}
+
+\lstdefinestyle{customasm}{
+  belowcaptionskip=1\baselineskip,
+  frame=L,
+  xleftmargin=\parindent,
+  language=[x86masm]Assembler,
+  basicstyle=\footnotesize\ttfamily,
+  commentstyle=\itshape\color{purple!40!black},
+}
+
+\lstdefinestyle{customh}{
+  frame=none,
+  xleftmargin=2pt,
+  stepnumber=1,
+  numbers=left,
+  numbersep=5pt,
+  numberstyle=\ttfamily\tiny\color[gray]{0.3},
+  belowcaptionskip=\bigskipamount,
+  captionpos=b,
+  escapeinside={*'}{'*},
+  language=haskell,
+  tabsize=2,
+  emphstyle={\bf},
+  commentstyle=\it,
+  stringstyle=\mdseries\rmfamily,
+  showspaces=false,
+  keywordstyle=\bfseries\rmfamily,
+  columns=flexible,
+  basicstyle=\small\sffamily,
+  showstringspaces=false,
+  morecomment=[l]\%,
+}
+
+\lstdefinestyle{customlua}{
+  frame=none,
+  xleftmargin=2pt,
+  stepnumber=1,
+  numbers=left,
+  numbersep=5pt,
+  numberstyle=\ttfamily\tiny\color[gray]{0.3},
+  belowcaptionskip=\bigskipamount,
+  captionpos=b,
+  escapeinside={*'}{'*},
+  language = {[5.0]Lua},
+  tabsize=2,
+  emphstyle={\bf},
+  commentstyle=\it,
+  stringstyle=\mdseries\rmfamily,
+  showspaces=false,
+  keywordstyle=\bfseries\rmfamily,
+  columns=flexible,
+  basicstyle=\small\sffamily,
+  showstringspaces=false,
+  morecomment=[l]\%,
+}
+
+
+\lstdefinestyle{customasm}{
+  belowcaptionskip=1\baselineskip,
+  frame=L,
+  xleftmargin=\parindent,
+  language=[x86masm]Assembler,
+  basicstyle=\footnotesize\ttfamily,
+  commentstyle=\itshape\color{purple!40!black},
+}
+
+
+\begin{document}
+
+\maketitle
+
+
+
+\begin{frame} {Toll Guarantee State}
+
+\begin{columns}[b]
+\column{0.5\textwidth}
+
+
+
+\begin{itemize}
+  \item The diagram to the right is an informal representation of and/or gates.
+  \item This question is akin to be a user story, with all the relevant analysis.
+  \item This diagram adds a concept of a Risk allocation (Rick - can you please expand on this term.).
+  \item The state machine is implemented as a cronjob/daemonjob, notification service for the appropriate agency
+    and or users from the agency so that the user can act on the \textbf{toll guarantee} request by the away agency.
+\end{itemize}
+
+\begin{example}
+A key benefit of all contracts is the allocation of risk.  This is important between parties dealing at arm’s length, because each wants to maximize their advantages. 
+It is equally important between cooperating toll agencies.  Overall financial effectiveness of each agency is important to stakeholders, and can be especially important with respect to bonds: bondholders have expectations of performance, and failure to meet expectations can have significant negative impacts.  By properly allocating risk, a contract or working agreement between agencies ensures that each agency can properly understand and manage their risk. For a traditional contract, ensuring that the risk is properly allocated, and remains so, requires considerable manual effort.  For example, each release of operational code must be reviewed to ensure that the functionality maintains the proper allocation of risk, especially around areas like time limits.
+
+\end{example}
+\begin{block}{
+  Notification service is part of the overall reporting and alerting mechanisms is part of the core implementation. This figure demonstrates an example of a potential implementation of the smart contracts working to allocate risk to the appropriate agency.
+}
+\end{block}
+\begin{block} {
+  One of the considerations is that when a smart contract is being executed all the agencies that are involved in the transaction will be aware of the changes to the ledger.
+} 
+\end{block}
+
+\column{0.5\textwidth}
+\scalebox{0.8} {
+\begin{tikzpicture}[
+% Gates and symbols style
+    and/.style={and gate US,thick,draw,fill=red!60,rotate=90,
+    anchor=east,xshift=-1mm},
+    or/.style={or gate US,thick,draw,fill=blue!60,rotate=90,
+    anchor=east,xshift=-1mm},
+    be/.style={circle,thick,draw,fill=green!60,anchor=north,
+    minimum width=0.7cm},
+    tr/.style={buffer gate US,thick,draw,fill=purple!60,rotate=90,
+    anchor=east,minimum width=0.8cm},
+% Label style
+    label distance=3mm,
+    every label/.style={blue},
+% Event style
+    event/.style={rectangle,thick,draw,fill=yellow!20,text width=2cm,
+    text centered,font=\sffamily,anchor=north},
+% Children and edges style
+    edge from parent/.style={very thick,draw=black!70},
+    edge from parent path={(\tikzparentnode.south) -- ++(0,-1.05cm)
+      -| (\tikzchildnode.north)},
+    level 1/.style={sibling distance=5cm,level distance=1.4cm,
+      growth parent anchor=south,nodes=event},
+    level 2/.style={sibling distance=7cm},
+    level 3/.style={sibling distance=6cm},
+    level 4/.style={sibling distance=3cm, text width=3cm}
+%%  For compatability with PGF CVS add the absolute option:
+%   absolute
+    ]
+%% Draw events and edges
+    \node (g1) [event] {Away Agency Posts Transaction}
+       child{node (g2) {Home Agency Supports NIOP}   
+        child {node (g3) {Home Agency Supports IAG }
+           child {node (g4) {Timer (4 hour) State Machine Starts}
+              child {node (t1) {Setup Toll Guarantee Risk Allocation}}
+              child {node (b2) {Away Agency Acks Toll Guarantee}}
+      }
+           child {node (g5) {Timer state expires}
+              child {node (t2) {Setup Toll Guarantee Risk Allocation}}
+              child {node (b3) {Toll Guarantee Acked.}}
+      }
+       }
+        child {node (b1) {Toll Guarantee waived}}
+    };
+%% Place gates and other symbols
+%% In the CVS version of PGF labels are placed differently than in PGF 2.0
+%% To render them correctly replace '-20' with 'right' and add the 'absolute'
+%% option to the tikzpicture environment. The absolute option makes the 
+%% node labels ignore the rotation of the parent node. 
+   \node [or] at (g2.south) [] {};
+   \node [and]  at (g3.south) [] {};
+   \node [or] at (g4.south) [] {};
+   \node [or] at (g5.south) [] {};
+   \node [be] at (b1.south) [] {};
+   \node [be] at (b2.south) [] {};
+   \node [be] at (b3.south) [] {};
+   \node [tr] at (t1.south) [] {};
+   \node [tr] at (t2.south) [] {};
+\end{tikzpicture}
+}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Additional Remarks}
+  \begin{itemize}
+    \item Amount of uncollected toll per year for Maryland - USD 137MM. {\href{https://www.washingtonpost.com/transportation/2021/05/01/maryland-unpaid-tolls-out-state-drivers/?wpisrc=nl_sb_smartbrief}{Link}}
+    \item "States treat violations differently. Each state has access to other state's motor vehicle registration data. The problem is:  how do we get people to pay what they owe?  what is the carrot and what is the stick?  if i get a toll violation from Kansas, what is the likelihood that I will be traveling through Kansas again?  if i do it all the time, i would likely pay.  if it is a one-time thing, no way i pay.  State's should come up with a threshold value and then agree to penalize THEIR residents if they go above the threshold in a different state..." - Conduent 
+    \item Fleet management along with risk allocation could be a starting point for the MVP - Kyra Solutions
+  \end{itemize}
+\end{frame}
+{\1
+  \begin{frame}[plain,noframenumbering]
+  \finalpage{Thank you for your time!}
+  \end{frame}
+}
+
+\end{document}
