@@ -10,7 +10,7 @@ import BoolUtils
 
 library TollStateGuarantee
   (* Interest rate in percent. This needs to be read from the local exchange rate*)
-  let annualizedInterestRate = Uint32 5
+  let annualizedInterestRate = Uint32 1
   let minimumTimeInterval = Uint32 60 (* Interval in minutes*)
   type SupportedProtocol = 
     | IAG
