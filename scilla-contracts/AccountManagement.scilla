@@ -4,7 +4,8 @@ import BoolUtils
 
 library AccountManagement
   type TagChangeRequest = | TagActivation | TagDeactivation | TagSuspension | Occupancy
-  type DispositionStatus = | Active | NotActive ( * Should print as "Y", "N" *)
+  (* Should print as Y or N *)
+  type DispositionStatus = | Active | NotActive 
   (* A 20 character tag id string *)
   type TagID = | TagID of String
   type LPType = | AllTerrain | Ambulance | CampTrailer | Camper | Combination
@@ -20,8 +21,16 @@ library AccountManagement
                 | SchoolBus | SchoolBusLivery | Senate
                 | ServiceBus | Snowmobile | SpecialMobileEquip
                 | StateVehicle | StateServBus | StateSTV
-                
-  
+  type Agency =  | Agency of String
+  type LPState = | LPState of String
+  type VehicleOccupancy = | VehicleOccupancy of Uint32     
+  type VehicleClass = | VehicleClass of Uint32 (* Any number between 2 - 6 axles *)
+  type VehicleStatus = | Valid | Invalid (* Valid = 0, Invalid = 2 *)
+  type FacilityCode = | FacilityCode of String
+  type PlazaCode = | PlazaCode of String
+  type LaneCode = | LaneCode of String
+
+
 (**
  A third-party account management contract to on board a third-party vendor.
 *)
