@@ -1,8 +1,11 @@
+(** Tag activation request *)
+
 scilla_version 0
-(* Imports *)
+
 import BoolUtils
 
-library AccountManagement
+library TagActivationRequest
+  
   type TagChangeRequest = | TagActivation | TagDeactivation | TagSuspension | Occupancy
   (* Should print as Y or N *)
   type DispositionStatus = | Active | NotActive 
@@ -34,22 +37,12 @@ library AccountManagement
   type PostFareAmount = | PostFareAmount of Uint128 (* Number of zil/microzils for the fare *)
 
 
-
-(**
- A third-party account management contract to on board a third-party vendor.
-*)
-contract AccountManagement(thirdParty: ByStr20)
-  field state : String = ""
-  field county : String = ""
-  field termLimit : Uint64 = Uint64 0
-
-  transition setTermLimit (aNumber : Uint64)
-    termLimit := aNumber
-  end
-
-  transition getTermLimit ()
-    r <- termLimit;
-    e  = { _eventname: "TermLimit"; msg : r};
-    event e
+contract TagChangeRequestContract (agency : Agency)
+  field tagAgency : Agency =
+    let empty = "" in
+    Agency empty
+    
+  transition SetTagAgency(aTagAgency : Agency)
+    tagAgency := aTagAgency (* check this is not the same as the home agency *)
   end
 
