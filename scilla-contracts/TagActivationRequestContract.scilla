@@ -37,11 +37,25 @@ library TagActivationRequest
   type PostFareAmount = | PostFareAmount of Uint128 (* Number of zil/microzils for the fare *)
 
 
+(* Assumptions: Each home agency instantiates this contract for away agency tag change request. This 
+might change if we appoint a central authority that manages all of these tag change requests. *)
+
 contract TagChangeRequestContract (agency : Agency)
   field tagAgency : Agency =
     let empty = "" in
     Agency empty
-    
+  field tagID : TagID =
+    let empty = "" in
+      TagID empty
+  field lpState : LPState =
+    let empty = "" in
+      LPState empty
+  field lpNumber : LPNumber = let empty = "" in LPNumber empty
+  field lpType : LPType = Passenger (* default *)
+  field vehicleOccupancy : VehicleOccupancy = let defValue = Uint32 4 in VehicleOccupancy defValue (* Another default *)
+  field vehicleClass : VehicleClass = let defValue = Uint32 2 in VehicleClass defValue (* a sedan *)
+  field requestType : TagChangeRequest = TagActivation (* Default *)
+  field requestNote : String = "Enter the notes for this request here"
   transition SetTagAgency(aTagAgency : Agency)
     tagAgency := aTagAgency (* check this is not the same as the home agency *)
   end
