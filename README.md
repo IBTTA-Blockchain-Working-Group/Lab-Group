@@ -15,6 +15,10 @@ Our goal for the MVPs that we would like to develop is to cover the following as
 
     - Fleet management
     - Interoperability (IOP)
+    - Tolling and customer support working group's model.
+      - Third Party Agreements
+      - Tag Request API
+      - Tag Disposition API (this might not be needed if the checks are in place that the tag request contract is only accessibly by the agency?)
 
 We use [Monday](https://milliganpartners.monday.com/boards/1200830450/), a public company, to capture our work. Please reach out to @kevinko102496 to be added to the board to influence our backlog and priorities.
 
@@ -33,6 +37,31 @@ We began the effort by evaluating [Zilliqa](https://www.zilliqa.com), though we 
 ### How to participate in the group
 
 Though we use the term "lab," we consider ourselves to be a bunch of like-minded folks who like to maintain a collegial environment to exchange and bounce off ideas/code, etc. If you see anything you like or don't like, please send us a note and we will be happy to discuss them and perhaps create a user story or two to memorialize them.
+
+
+### Assumptions and design alternatives
+
+The flow of applying these contracts will most likely originate from a mobile application. The mobile application will help register a user owning/using a tag with a tag specific contract. The request to activation will originate from the mobile application, though, there may be a need to put an escape hatch for suspending a tag.
+
+We envision the following on-boarding flows
+  - Tag owner through her(his) mobile application.
+  - Tag agency through a web application to list its agency rates, and other static information.
+  - Third party providers such as, where their acceptance of terms and conditions is stored on the blockchain.
+    + Toll operators
+    + Application developers
+    + Service providers
+
+#### Tag registration
+
+The registration process will most likely tie a mobile phone to a contract and publish an event when a new user is registered on the blockchain. The tag activation process will most likely invoke the appropriate tag agency contract and update its own records based on the price list set by the agency.
+
+#### Charges and price list
+
+This part of the story will most likely need to interact with a stable coin so that the dollar value of the contract is preserved during the term of the contract. Zilliqa has a SGDZIL stable coin, therefore forex rate variations will need to be accounted for when converting to the target country (default to USD).
+
+#### Escape hatch
+A tag owner can request activation and renewal from her(his) wallet, though suspending a tag is something that an agency will probably need to have access to. The contracts will disallow suspension and deactivation of contracts from the mobile wallet to prevent loss of control of the asset.
+
 
 
 ### Team/Acknowledgments

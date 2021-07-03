@@ -5,10 +5,12 @@ scilla_version 0
 import BoolUtils
 
 library TagActivationRequest
-  
+
   type TagChangeRequest = | TagActivation | TagDeactivation | TagSuspension | Occupancy
   (* Should print as Y or N *)
-  type DispositionStatus = | Active | NotActive 
+  type DispositionStatus = | Active | NotActive
+  type DispositionNote = | DispositionNote of String
+
   (* A 20 character tag id string *)
   type TagID = | TagID of String
   type LPType = | AllTerrain | Ambulance | CampTrailer | Camper | Combination
@@ -26,7 +28,7 @@ library TagActivationRequest
                 | StateVehicle | StateServBus | StateSTV
   type Agency =  | Agency of String
   type LPState = | LPState of String
-  type VehicleOccupancy = | VehicleOccupancy of Uint32     
+  type VehicleOccupancy = | VehicleOccupancy of Uint32
   type VehicleClass = | VehicleClass of Uint32 (* Any number between 2 - 6 axles *)
   type VehicleStatus = | Valid | Invalid (* Valid = 0, Invalid = 2 *)
   type FacilityCode = | FacilityCode of String
@@ -37,7 +39,7 @@ library TagActivationRequest
   type PostFareAmount = | PostFareAmount of Uint128 (* Number of zil/microzils for the fare *)
 
 
-(* Assumptions: Each home agency instantiates this contract for away agency tag change request. This 
+(* Assumptions: Each home agency instantiates this contract for away agency tag change request. This
 might change if we appoint a central authority that manages all of these tag change requests. *)
 
 contract TagChangeRequestContract (agency : Agency)
@@ -56,7 +58,60 @@ contract TagChangeRequestContract (agency : Agency)
   field vehicleClass : VehicleClass = let defValue = Uint32 2 in VehicleClass defValue (* a sedan *)
   field requestType : TagChangeRequest = TagActivation (* Default *)
   field requestNote : String = "Enter the notes for this request here"
+  (* Transitions need to be checked for owner so that the requests are originating from a list of valid
+  agencies. *)
+
   transition SetTagAgency(aTagAgency : Agency)
-    tagAgency := aTagAgency (* check this is not the same as the home agency *)
+    tagAgency := aTagAgency; (* check this is not the same as the home agency *)
+    updateTagAgencyEvent = {_eventname : "SetTagAgency"; msg : "Updated tag agency" ; agency : aTagAgency};
+    event updateTagAgencyEvent
   end
 
+  transition SetTagID(anInput : TagID)
+    tagID := anInput;
+    updateTagID = {_eventname : "SetTagID"; msg : "Updated Tag ID"; tagid : anInput};
+    event updateTagID
+  end
+
+  transition SetLpState(anInput : LPState)
+    lpState := anInput;
+    updateLpState = {_eventname : "SetLpState"; msg :  "Updated LpState"; state : anInput};
+    event updateLpState
+  end
+
+  transition SetLpNumber(anInput : LPNumber)
+    lpNumber := anInput;
+    updateLpNumber = {_eventname : "SetLpNumber"; msg : "Update LpNumber"; lpnumber : anInput};
+    event updateLpNumber
+  end
+
+  transition SetLpType(anInput : LPType)
+    lpType := anInput;
+    updateLpType = {_eventname : "SetLpType"; msg : "Update License Plate Type"; lptype : anInput};
+    event updateLpType
+  end
+
+  transition SetVehicleClass(anInput : VehicleClass)
+    vehicleClass := anInput;
+    updateVehicleClass = {_eventname : "SetVehicleClass"; msg : "Update vehicle class"; vehicleclass : anInput};
+    event updateVehicleClass
+  end
+
+  transition SetVehicleOccupancy(anInput : VehicleOccupancy)
+    vehicleOccupancy := anInput;
+    updateVehicleOccupancy = {_eventname : "SetVehicleOccupancy"; msg : "Update vehicle occupancy"; occupancy  : anInput};
+    event updateVehicleOccupancy
+  end
+
+  transition SetRequestType(anInput : TagChangeRequest)
+    requestType := anInput;
+    updateRequestType = {_eventname : "SetRequestType"; msg : "Update request type" ; requesttype : anInput};
+    event updateRequestType
+  end
+
+
+  transition SetRequestNote(anInput : String)
+    requestNote := anInput;
+    updateRequestNote = {_eventname : "SetRequestNote"; msg : "Update request note"; requestnote : anInput};
+    event updateRequestNote
+  end
