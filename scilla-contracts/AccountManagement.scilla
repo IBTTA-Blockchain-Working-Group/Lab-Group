@@ -1,7 +1,6 @@
 scilla_version 0
 (* Imports *)
-import BoolUtils
-import TagActivationRequestLib
+import BoolUtils AgencyLib
 
 (**
  A third-party account management contract to on board a third-party vendor.
@@ -12,6 +11,9 @@ contract AccountManagement(thirdParty: ByStr20)
   field termLimit : Uint64 = Uint64 0
   field tagActivationRequest : TagChangeRequest = TagActivation
 
+  transition setAgency(inputAgency : Agency) 
+    agency := inputAgency
+  end
   transition setTermLimit (aNumber : Uint64)
     termLimit := aNumber
   end

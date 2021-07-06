@@ -1,0 +1,30 @@
+scilla_version 0
+
+import BoolUtils
+
+library AgencyLib
+ (**
+ Library design based on the Tolling and Customer Service
+ Working Group's ICD document.
+ *)
+
+type Agency =  | Agency of String
+type LPState = | LPState of String
+type LPCounty = | LPCount of String
+type TollOperator = | TollOperator of String
+type AccountManagement = | MobileApp | TransponderDistributor | TransponderRetail
+type AccountTool = | Smartphone | CustomerServiceCenter | MobileAppTool
+type AccountIdentifier = | VehicleLicensePlate | TransponderIdentifier
+type InitialTerm = | InitialTerm of Uint32
+type RenewTerm = | RenewTerm of Uint32
+type ContractorCompensation = | ContractorCompensation of Uint32
+
+(** Exhibit B : Costs - not to exceed the costs listed *)
+
+type ProductCost = | ProductCost of Uint64
+type PreLoadedTolls = | PreLoadedTolls of Uint64
+type TransponderCost = | TransponderCost of Uint64
+type AppDownloadCost = | AppDownloadCost of Uint64
+type ReloadFees = | ReloadFees of Uint64
+
+

@@ -2,7 +2,7 @@
 
 scilla_version 0
 
-import BoolUtils TagActivationRequestLib
+import BoolUtils TagActivationRequestLib AgencyLib
 
 (* Assumptions: Each home agency instantiates this contract for away agency tag change request. This
 might change if we appoint a central authority that manages all of these tag change requests. *)
