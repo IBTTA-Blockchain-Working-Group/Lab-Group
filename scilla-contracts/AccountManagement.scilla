@@ -1,39 +1,7 @@
 scilla_version 0
 (* Imports *)
 import BoolUtils
-
-library AccountManagement
-  type TagChangeRequest = | TagActivation | TagDeactivation | TagSuspension | Occupancy
-  (* Should print as Y or N *)
-  type DispositionStatus = | Active | NotActive 
-  (* A 20 character tag id string *)
-  type TagID = | TagID of String
-  type LPType = | AllTerrain | Ambulance | CampTrailer | Camper | Combination
-                | Commercial | CongressionalMedalOfHonor
-                | Construction | Dealer
-                | ExperimentalTest | Factory | Farm
-                | FireApparatus | GeneralDistrictBus
-                | Handicapped | HandicappedMotorcycle
-                | Hearse | Historical | Interstate
-                | Legislature | Livery | Motorcycle
-                | Municipal | Passenger | Permits | POW_CMPR
-                | POW_COMB | POW_Veteran | PublicServiceBus
-                | SchoolBus | SchoolBusLivery | Senate
-                | ServiceBus | Snowmobile | SpecialMobileEquip
-                | StateVehicle | StateServBus | StateSTV
-  type Agency =  | Agency of String
-  type LPState = | LPState of String
-  type VehicleOccupancy = | VehicleOccupancy of Uint32     
-  type VehicleClass = | VehicleClass of Uint32 (* Any number between 2 - 6 axles *)
-  type VehicleStatus = | Valid | Invalid (* Valid = 0, Invalid = 2 *)
-  type FacilityCode = | FacilityCode of String
-  type PlazaCode = | PlazaCode of String
-  type LaneCode = | LaneCode of String
-  type TransactionTime = | TransactionTime of Uint64
-  type LPNumber = | LPNumber of String
-  type PostFareAmount = | PostFareAmount of Uint128 (* Number of zil/microzils for the fare *)
-
-
+import TagActivationRequestLib
 
 (**
  A third-party account management contract to on board a third-party vendor.
@@ -42,10 +10,12 @@ contract AccountManagement(thirdParty: ByStr20)
   field state : String = ""
   field county : String = ""
   field termLimit : Uint64 = Uint64 0
+  field tagActivationRequest : TagChangeRequest = TagActivation
 
   transition setTermLimit (aNumber : Uint64)
     termLimit := aNumber
   end
+
 
   transition getTermLimit ()
     r <- termLimit;
