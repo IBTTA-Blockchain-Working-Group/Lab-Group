@@ -16,7 +16,6 @@ contract AccountManagement(thirdParty: ByStr20)
     termLimit := aNumber
   end
 
-
   transition getTermLimit ()
     r <- termLimit;
     e  = { _eventname: "TermLimit"; msg : r};
