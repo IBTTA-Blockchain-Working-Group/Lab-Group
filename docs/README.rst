@@ -112,9 +112,15 @@ Escape hatch
 
 A tag owner can request activation and renewal from her(his) wallet,
 though suspending a tag is something that an agency will probably need
-to have access to. The contracts will disallow suspension and
+to have access to. The contracts need to disallow suspension and
 deactivation of contracts from the mobile wallet to prevent loss of
-control of the asset.
+control of the underlying asset.
+
+Additional References
+--------------------
+
+  .. image:: IBTTAChallenges-1.png
+
 
 Team/Acknowledgments
 --------------------
