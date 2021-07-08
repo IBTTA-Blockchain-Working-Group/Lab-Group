@@ -7,6 +7,7 @@ Welcome to IBTTA Blockchain Workgroup's Project documentation!
    :caption: Contents:
 
    README
+   ExampleContracts
 
 Indices and tables
 ==================
