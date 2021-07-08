@@ -59,8 +59,13 @@ The registration process will most likely tie a mobile phone to a contract and p
 
 This part of the story will most likely need to interact with a stable coin so that the dollar value of the contract is preserved during the term of the contract. Zilliqa has a SGDZIL stable coin, therefore forex rate variations will need to be accounted for when converting to the target country (default to USD).
 
+#### Toll charges
+The toll charges per mile/kilometer are set by the agency and this information will be best captured as part of a contract for other applications to import these charges.
+
 #### Escape hatch
 A tag owner can request activation and renewal from her(his) wallet, though suspending a tag is something that an agency will probably need to have access to. The contracts will disallow suspension and deactivation of contracts from the mobile wallet to prevent loss of control of the asset.
+
+
 
 ### Team/Acknowledgments
 We wish to thank these invaluable contributors and teammates:
