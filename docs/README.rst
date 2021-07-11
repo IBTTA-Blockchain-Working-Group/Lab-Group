@@ -117,13 +117,13 @@ deactivation of contracts from the mobile wallet to prevent loss of
 control of the underlying asset.
 
 Additional References
---------------------
+-----------------------------------
 
   .. image:: IBTTAChallenges-1.png
 
 
 Team/Acknowledgments
---------------------
+-----------------------------------
 
 We wish to thank these invaluable contributors and teammates:
 
