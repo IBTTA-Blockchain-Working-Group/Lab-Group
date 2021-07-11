@@ -129,7 +129,7 @@ Account Management Smart Contract
 Tag Activation Request Contract
 --------------------------------
 
-.. code:: OCaml
+.. code:: ocaml
 
 (** Tag activation request *)
 
@@ -223,7 +223,7 @@ This contract explores the risk attributed during the time window for claiming a
 
 *Refactoring note: Move the library code to a .scillib file*
 
-.. code:: OCaml
+.. code:: ocaml
 (* Scilla contract structure *)
 
 scilla_version 0
