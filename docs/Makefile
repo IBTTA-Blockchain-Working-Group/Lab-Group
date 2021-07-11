@@ -18,25 +18,3 @@ help:
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
-
-
-# Carried over from the older makefile.
-
-tgibtta : TollGuaranteeStateIBTTA.tex
-	lualatex -shell-escape TollGuaranteeStateIBTTA.tex
-
-education : IBTTAChallenges.tex
-	lualatex --shell-escape IBTTAChallenges.tex
-	pdftoppm IBTTAChallenges.pdf IBTTAChallenges -png
-
-all : tgibtta education
-
-clean: 
-	rm TransactionModel.vrb
-	rm TollGuaranteeState*.out
-	rm TollGuaranteeState*.aux
-	rm TollGuaranteeState*.lo?
-	rm TollGuaranteeState.snm
-	rm TollGuaranteeState.nav
-	rm TollGuaranteeState.toc
-	rm TollGuaranteeState.vrb
