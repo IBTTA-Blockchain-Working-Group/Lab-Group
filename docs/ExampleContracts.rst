@@ -1,6 +1,6 @@
 
 Sample Contracts
-===============
+===================================
 
 Introduction
 ----------------
@@ -131,215 +131,214 @@ Tag Activation Request Contract
 
 .. code:: ocaml
 
-(** Tag activation request *)
+  scilla_version 0
 
-scilla_version 0
+  import BoolUtils TagActivationRequestLib AgencyLib
 
-import BoolUtils TagActivationRequestLib AgencyLib
+  (* Assumptions: Each home agency instantiates this contract for away agency tag change request. This
+  might change if we appoint a central authority that manages all of these tag change requests. *)
 
-(* Assumptions: Each home agency instantiates this contract for away agency tag change request. This
-might change if we appoint a central authority that manages all of these tag change requests. *)
+  contract TagChangeRequestContract (agency : Agency)
+    field tagAgency : Agency =
+      let empty = "" in
+      Agency empty
+    field tagID : TagID =
+      let empty = "" in
+        TagID empty
+    field lpState : LPState =
+      let empty = "" in
+        LPState empty
+    field lpNumber : LPNumber = let empty = "" in LPNumber empty
+    field lpType : LPType = Passenger (* default *)
+    field vehicleOccupancy : VehicleOccupancy = let defValue = Uint32 4 in VehicleOccupancy defValue (* Another default *)
+    field vehicleClass : VehicleClass = let defValue = Uint32 2 in VehicleClass defValue (* a sedan *)
+    field requestType : TagChangeRequest = TagActivation (* Default *)
+    field requestNote : String = "Enter the notes for this request here"
+    (* Transitions need to be checked for owner so that the requests are originating from a list of valid
+    agencies. *)
 
-contract TagChangeRequestContract (agency : Agency)
-  field tagAgency : Agency =
-    let empty = "" in
-    Agency empty
-  field tagID : TagID =
-    let empty = "" in
-      TagID empty
-  field lpState : LPState =
-    let empty = "" in
-      LPState empty
-  field lpNumber : LPNumber = let empty = "" in LPNumber empty
-  field lpType : LPType = Passenger (* default *)
-  field vehicleOccupancy : VehicleOccupancy = let defValue = Uint32 4 in VehicleOccupancy defValue (* Another default *)
-  field vehicleClass : VehicleClass = let defValue = Uint32 2 in VehicleClass defValue (* a sedan *)
-  field requestType : TagChangeRequest = TagActivation (* Default *)
-  field requestNote : String = "Enter the notes for this request here"
-  (* Transitions need to be checked for owner so that the requests are originating from a list of valid
-  agencies. *)
+    transition SetTagAgency(aTagAgency : Agency)
+      tagAgency := aTagAgency; (* check this is not the same as the home agency *)
+      updateTagAgencyEvent = {_eventname : "SetTagAgency"; msg : "Updated tag agency" ; agency : aTagAgency};
+      event updateTagAgencyEvent
+    end
 
-  transition SetTagAgency(aTagAgency : Agency)
-    tagAgency := aTagAgency; (* check this is not the same as the home agency *)
-    updateTagAgencyEvent = {_eventname : "SetTagAgency"; msg : "Updated tag agency" ; agency : aTagAgency};
-    event updateTagAgencyEvent
-  end
+    transition SetTagID(anInput : TagID)
+      tagID := anInput;
+      updateTagID = {_eventname : "SetTagID"; msg : "Updated Tag ID"; tagid : anInput};
+      event updateTagID
+    end
 
-  transition SetTagID(anInput : TagID)
-    tagID := anInput;
-    updateTagID = {_eventname : "SetTagID"; msg : "Updated Tag ID"; tagid : anInput};
-    event updateTagID
-  end
+    transition SetLpState(anInput : LPState)
+      lpState := anInput;
+      updateLpState = {_eventname : "SetLpState"; msg :  "Updated LpState"; state : anInput};
+      event updateLpState
+    end
 
-  transition SetLpState(anInput : LPState)
-    lpState := anInput;
-    updateLpState = {_eventname : "SetLpState"; msg :  "Updated LpState"; state : anInput};
-    event updateLpState
-  end
+    transition SetLpNumber(anInput : LPNumber)
+      lpNumber := anInput;
+      updateLpNumber = {_eventname : "SetLpNumber"; msg : "Update LpNumber"; lpnumber : anInput};
+      event updateLpNumber
+    end
 
-  transition SetLpNumber(anInput : LPNumber)
-    lpNumber := anInput;
-    updateLpNumber = {_eventname : "SetLpNumber"; msg : "Update LpNumber"; lpnumber : anInput};
-    event updateLpNumber
-  end
+    transition SetLpType(anInput : LPType)
+      lpType := anInput;
+      updateLpType = {_eventname : "SetLpType"; msg : "Update License Plate Type"; lptype : anInput};
+      event updateLpType
+    end
 
-  transition SetLpType(anInput : LPType)
-    lpType := anInput;
-    updateLpType = {_eventname : "SetLpType"; msg : "Update License Plate Type"; lptype : anInput};
-    event updateLpType
-  end
+    transition SetVehicleClass(anInput : VehicleClass)
+      vehicleClass := anInput;
+      updateVehicleClass = {_eventname : "SetVehicleClass"; msg : "Update vehicle class"; vehicleclass : anInput};
+      event updateVehicleClass
+    end
 
-  transition SetVehicleClass(anInput : VehicleClass)
-    vehicleClass := anInput;
-    updateVehicleClass = {_eventname : "SetVehicleClass"; msg : "Update vehicle class"; vehicleclass : anInput};
-    event updateVehicleClass
-  end
+    transition SetVehicleOccupancy(anInput : VehicleOccupancy)
+      vehicleOccupancy := anInput;
+      updateVehicleOccupancy = {_eventname : "SetVehicleOccupancy"; msg : "Update vehicle occupancy"; occupancy  : anInput};
+      event updateVehicleOccupancy
+    end
 
-  transition SetVehicleOccupancy(anInput : VehicleOccupancy)
-    vehicleOccupancy := anInput;
-    updateVehicleOccupancy = {_eventname : "SetVehicleOccupancy"; msg : "Update vehicle occupancy"; occupancy  : anInput};
-    event updateVehicleOccupancy
-  end
-
-  transition SetRequestType(anInput : TagChangeRequest)
-    requestType := anInput;
-    updateRequestType = {_eventname : "SetRequestType"; msg : "Update request type" ; requesttype : anInput};
-    event updateRequestType
-  end
+    transition SetRequestType(anInput : TagChangeRequest)
+      requestType := anInput;
+      updateRequestType = {_eventname : "SetRequestType"; msg : "Update request type" ; requesttype : anInput};
+      event updateRequestType
+    end
 
 
-  transition SetRequestNote(anInput : String)
-    requestNote := anInput;
-    updateRequestNote = {_eventname : "SetRequestNote"; msg : "Update request note"; requestnote : anInput};
-    event updateRequestNote
-  end
+    transition SetRequestNote(anInput : String)
+      requestNote := anInput;
+      updateRequestNote = {_eventname : "SetRequestNote"; msg : "Update request note"; requestnote : anInput};
+      event updateRequestNote
+    end
 
 
 
 Toll State Guarantee
-------------------------
+-----------------------------------------
 
 This contract explores the risk attributed during the time window for claiming a toll between a *home agency* and an *away agency*. An aspect of computing risk that we would like to explore in this contract is to use *continuous compounding* and compute risk at intervals rather than fixed time intervals such as week, month etc. 
 
-*Refactoring note: Move the library code to a .scillib file*
+* Refactoring note: Move the library code to a .scillib file *
 
 .. code:: ocaml
-(* Scilla contract structure *)
 
-scilla_version 0
+      (* Scilla contract structure *)
 
-(* Imports *)
+      scilla_version 0
 
-import BoolUtils
+      (* Imports *)
 
-(* Library *)
+      import BoolUtils
 
-library TollStateGuarantee
-  (* Interest rate in percent. This needs to be read from the local exchange rate*)
-  let annualizedInterestRate = Uint32 1
-  let minimumTimeInterval = Uint32 60 (* Interval in minutes*)
-  type SupportedProtocol = 
-    | IAG
-    | NIOP
+      (* Library *)
 
-  (* Scilla doesn't allow for floating point computations to maintain the security of the language. But it does support Uint64 integer types. Therefore we need to resort to expressing compounding formula in terms of natural numbers.*) 
+      library TollStateGuarantee
+        (* Interest rate in percent. This needs to be read from the local exchange rate*)
+        let annualizedInterestRate = Uint32 1
+        let minimumTimeInterval = Uint32 60 (* Interval in minutes*)
+        type SupportedProtocol = 
+          | IAG
+          | NIOP
 
-  type Timestamp = | Timestamp of Uint64
+        (* Scilla doesn't allow for floating point computations to maintain the security of the language. But it does support Uint64 integer types. Therefore we need to resort to expressing compounding formula in terms of natural numbers.*) 
+
+        type Timestamp = | Timestamp of Uint64
 
 
-  let initTimestamp : Uint64 -> Timestamp =
-    fun (initTime : Uint64) => Timestamp initTime
+        let initTimestamp : Uint64 -> Timestamp =
+          fun (initTime : Uint64) => Timestamp initTime
 
-  (* Toll Guarantee Interval *)
-  let tollGuaranteeInterval : Timestamp =
-    let nH = Uint64 4 in 
-    let nS = Uint64 3600 in
-    let numHours = builtin mul nH nS in
-    initTimestamp numHours
+        (* Toll Guarantee Interval *)
+        let tollGuaranteeInterval : Timestamp =
+          let nH = Uint64 4 in 
+          let nS = Uint64 3600 in
+          let numHours = builtin mul nH nS in
+          initTimestamp numHours
 
-  let timeInterval : Timestamp -> Timestamp -> Timestamp =
-    fun (startTime : Timestamp) => 
-    fun (endTime : Timestamp) =>
-    match startTime with
-      | Timestamp s =>
-        match endTime with
-          | Timestamp e => 
-            let d = builtin sub e s
-            in 
-              Timestamp d
-      end
-    end
-
-  let addTimestamp : Timestamp -> Timestamp -> Timestamp =
-    fun (t1 : Timestamp) =>
-    fun (t2 : Timestamp) => 
-      match t1 with
-        | Timestamp t11 =>
-          match t2 with
-           |Timestamp t12 =>
-            let t13 = builtin add t11 t12 in
-            Timestamp t13
+        let timeInterval : Timestamp -> Timestamp -> Timestamp =
+          fun (startTime : Timestamp) => 
+          fun (endTime : Timestamp) =>
+          match startTime with
+            | Timestamp s =>
+              match endTime with
+                | Timestamp e => 
+                  let d = builtin sub e s
+                  in 
+                    Timestamp d
+            end
           end
-      end
 
-  let timeExpired : Timestamp -> Timestamp -> Timestamp -> Bool =
-    fun (startTime : Timestamp) =>
-    fun (currentTime : Timestamp) =>
-    fun (timeInterval : Timestamp) => 
-      match startTime with 
-        | Timestamp s => 
-          match currentTime with
-            | Timestamp c =>
-                let d = addTimestamp startTime timeInterval in
-                let zero = Uint64 0
-                in
-                  match d with
-                    |Timestamp d2 => builtin lt d2 c
-                  end
-          end
-      end
+        let addTimestamp : Timestamp -> Timestamp -> Timestamp =
+          fun (t1 : Timestamp) =>
+          fun (t2 : Timestamp) => 
+            match t1 with
+              | Timestamp t11 =>
+                match t2 with
+                 |Timestamp t12 =>
+                  let t13 = builtin add t11 t12 in
+                  Timestamp t13
+                end
+            end
 
-  let eulerConstant = "2.71828182845904523536028747135266249775724709369995"
+        let timeExpired : Timestamp -> Timestamp -> Timestamp -> Bool =
+          fun (startTime : Timestamp) =>
+          fun (currentTime : Timestamp) =>
+          fun (timeInterval : Timestamp) => 
+            match startTime with 
+              | Timestamp s => 
+                match currentTime with
+                  | Timestamp c =>
+                      let d = addTimestamp startTime timeInterval in
+                      let zero = Uint64 0
+                      in
+                        match d with
+                          |Timestamp d2 => builtin lt d2 c
+                        end
+                end
+            end
 
-  (*
-    The formula for continuous compounding is 
-      A = P * (eulerConstant ^ (rate * timeIntervals)). 
-    However, since scilla prevents using floating point numbers, these numbers will need to be converted to integers and then rounded down. TBD.
-  *)
-  let continuousCompounding : Uint64 -> Timestamp -> Timestamp -> Uint64 = 
-  fun (interestRate : Uint64) =>
-  fun (startTime : Timestamp) =>
-  fun (currentTime : Timestamp) =>
-    Uint64 0
+        let eulerConstant = "2.71828182845904523536028747135266249775724709369995"
 
-(* ********************* Contract definition ****************************************************
-  * This contract represents the state machine for providing* 
-  * guarantee for collection of a toll during inter-state travel.* 
-  * The guarantee depends on the protocol that agencies support. * 
-  * If the agency supports NIOP protocol, then the guarantee is waived. * 
-  * However, if the agency supports IAG then the timer for acquiring the risk starts, typically, 4 * hours. 
-  * If the AwayAgency accepts the risk, then the risk is allocated to the Away Agency. * 
-  However, if the timer expires, the Home Agency accepts the risk. This risk gets added to risk of toll * collection for the time period. * 
-  Note: time period in a distributed, blockchain environment may not align calendar events such as days, * weeks, years, therefore, * 
-  * we propose that the risk be computed using * 
-  * continuous compounding with an annualized rate * 
-  * of interest for the time line. We decide to use * 
-  * 60 minutes as the minimum time interval.  * 
+        (*
+          The formula for continuous compounding is 
+            A = P * (eulerConstant ^ (rate * timeIntervals)). 
+          However, since scilla prevents using floating point numbers, these numbers will need to be converted to integers and then rounded down. TBD.
+        *)
+        let continuousCompounding : Uint64 -> Timestamp -> Timestamp -> Uint64 = 
+        fun (interestRate : Uint64) =>
+        fun (startTime : Timestamp) =>
+        fun (currentTime : Timestamp) =>
+          Uint64 0
 
-**********************************************************************************)
+      (* ********************* Contract definition ****************************************************
+        * This contract represents the state machine for providing* 
+        * guarantee for collection of a toll during inter-state travel.* 
+        * The guarantee depends on the protocol that agencies support. * 
+        * If the agency supports NIOP protocol, then the guarantee is waived. * 
+        * However, if the agency supports IAG then the timer for acquiring the risk starts, typically, 4 * hours. 
+        * If the AwayAgency accepts the risk, then the risk is allocated to the Away Agency. * 
+        However, if the timer expires, the Home Agency accepts the risk. This risk gets added to risk of toll * collection for the time period. * 
+        Note: time period in a distributed, blockchain environment may not align calendar events such as days, * weeks, years, therefore, * 
+        * we propose that the risk be computed using * 
+        * continuous compounding with an annualized rate * 
+        * of interest for the time line. We decide to use * 
+        * 60 minutes as the minimum time interval.  * 
 
-contract TollStateGuarantee
-  (* Parameters *)
-  (homeAgency: ByStr20,
-    awayAgency : ByStr20,
-    guaranteeGracePeriod : Timestamp,
-    riskAmount : Uint64)
-with
-  let zero = Uint64 0 in
-  builtin lt zero riskAmount
-  => 
-  field tagId : String = ""
-  field startTime : Timestamp
-    = let
-        zero = Uint64 0 in
-      Timestamp zero
+      **********************************************************************************)
+
+      contract TollStateGuarantee
+        (* Parameters *)
+        (homeAgency: ByStr20,
+          awayAgency : ByStr20,
+          guaranteeGracePeriod : Timestamp,
+          riskAmount : Uint64)
+      with
+        let zero = Uint64 0 in
+        builtin lt zero riskAmount
+        => 
+        field tagId : String = ""
+        field startTime : Timestamp
+          = let
+              zero = Uint64 0 in
+            Timestamp zero
