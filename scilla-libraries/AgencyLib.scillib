@@ -27,4 +27,19 @@ type TransponderCost = | TransponderCost of Uint64
 type AppDownloadCost = | AppDownloadCost of Uint64
 type ReloadFees = | ReloadFees of Uint64
 
+type AgencyError = 
+  | NotHomeAgency of String
+  | AwayAgencyCannotAuthorizeFee of String
+
+type SystemError =
+  | GeneralError of Uint64 String
+  | InvalidData of Uint64 String
+  | UnknownPlaza of Uint64 String
+  | UnknownLane of Uint64 String
+  | MissingRequiredField of Uint64 String
+  | TagNotFound of Uint64 String 
+  | DuplicateTransaction of Uint64 String
+  | FormatError of Uint64 String
+  | TagValidationOutOfDate of Uint64 String
+  | TransactionOutOfDate of Uint64 String
 
