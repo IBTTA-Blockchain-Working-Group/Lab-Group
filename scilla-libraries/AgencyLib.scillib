@@ -6,9 +6,12 @@ library AgencyLib
  (**
  Library design based on the Tolling and Customer Service
  Working Group's ICD document.
+ Some of the business rules that are documented in NIOP are listed here with the intent 
+ to present a smart-contract alternative to handle the requirements.
  *)
 
 type Agency =  | Agency of String
+type VINNumber = | VINNumber of String
 type LPState = | LPState of String
 type LPCounty = | LPCount of String
 type TollOperator = | TollOperator of String
@@ -42,4 +45,72 @@ type SystemError =
   | FormatError of Uint64 String
   | TagValidationOutOfDate of Uint64 String
   | TransactionOutOfDate of Uint64 String
+  | InvalidFromAgency of Agency
+  | InvalidVINNumber of VINNumber
+  | InvalidAccountInfo of String
+  | InvalidState of String
+  | InvalidStatus of String
+  | InvalidDiscountPlan
 
+(* Some of these types are borrowed from the IAG specification document.*)
+
+type DiscountCode = 
+  | StatenIslandDiscountCode
+  | GreenDiscountCode
+  | CarpoolDiscountCode
+  | NonRevenueDiscountCode
+  | AnnualPermitDiscountCode
+  | TappanZeeCommuterDiscountCode
+  | TappanZeeCarpoolDiscountCode
+  | RockawayResidentDiscountCode
+  | StatenIslandResidentDiscountCode (* should be derivable from the tag*)
+  | DRPADiscountCode
+  | SJTADiscountCode
+  | BusDiscountCode
+
+type TagStatus =
+  | ValidTagStatus
+  | LowBalance
+  | InvalidTagStatus
+  | LostOrStolenTagStatus
+
+type TagProtocol = 
+  | TDM
+  | SeGo
+  | Protocol_6C
+  | TDM_SEGO
+  | TDM_6C
+  | Sego_C6
+  | TDMSEGO6C
+
+type TagMount = 
+  | Interior
+  | LicensePlateMount
+  | RoofMount
+  | Headlamp
+  | VehicleIntegrated (* connected devices*)
+
+type TransponderType = 
+  | Switchable
+  | LicensePlate
+  | Feedback
+  | FeedbackSwitchable
+
+type LaneMode =
+  | ETCOnly
+  | ETCACM
+  | PersonnedETC
+  | PersonnedETCCarpool
+  | PersonnedETCCarpoolWithConfirmation (* confirmation needs to be a transition *)
+
+
+
+
+(* Some constants *)
+let panynj : Agency = let str = "PANYNJ" in Agency str
+let nysba : Agency = let str = "NYSBA" in Agency str
+let nysta : Agency = let str = "NYSTA" in Agency str
+let nysta : Agency = let str = "MTA" in Agency str
+let nysta : Agency = let str = "DRPA" in Agency str
+let nysta : Agency = let str = "SJTA" in Agency str
+let nysta : Agency = let str = "NJHA" in Agency str

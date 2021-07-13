@@ -11,6 +11,7 @@ Welcome to ibtta-blockchain-wg's documentation!
    :caption: Contents:
 
    README
+   BusinessRules
    ExampleContracts
 
 Indices and tables

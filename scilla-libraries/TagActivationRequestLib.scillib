@@ -25,11 +25,9 @@ type LPType = | AllTerrain | Ambulance | CampTrailer | Camper | Combination
               | ServiceBus | Snowmobile | SpecialMobileEquip
               | StateVehicle | StateServBus | StateSTV
 
-
-
 type VehicleOccupancy = | VehicleOccupancy of Uint32
 type VehicleClass = | VehicleClass of Uint32 (* Any number between 2 - 6 axles *)
-type VehicleStatus = | Valid | Invalid (* Valid = 0, Invalid = 2 *)
+type VehicleStatus = | ValidStatus | InvalidVehicleStatus (* Valid = 0, Invalid = 2 *)
 type FacilityCode = | FacilityCode of String
 type PlazaCode = | PlazaCode of String
 type LaneCode = | LaneCode of String
@@ -37,3 +35,28 @@ type TransactionTime = | TransactionTime of Uint64
 type LPNumber = | LPNumber of String
 type PostFareAmount = | PostFareAmount of Uint128 (* Number of zil/microzils for the fare *)
 
+type TransactionPostType =
+  | POSTSuccessful
+  | POSTWithLicensePlate
+  | NPOSTHomeAgencyAck
+  | RejectedInsufficientInformation
+  | RejectedLicensePlate
+  | RejectedAccountClosed
+  | RejectedOldTransaction
+  | RejectedAccountInBadState
+  | RejectedInvalidTransactionData
+  | RejectedTagBadState
+  | RejectedDuplicateTransaction
+
+(* Again, some statuses are driven by the IAG's definition of statuses.*)
+
+type EZPassStatus =
+  | EZPass
+  | EZPassPlus
+
+type EZPassAccountType =
+  | BusinessAccountType
+  | FleetAccountType
+  | PrivateAccountType
+  | ViolationAvoidanceAccountType
+  | RetailTransponder

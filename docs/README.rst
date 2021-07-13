@@ -116,10 +116,18 @@ to have access to. The contracts need to disallow suspension and
 deactivation of contracts from the mobile wallet to prevent loss of
 control of the underlying asset.
 
+IBTTA Blockchain Challenges
+---------------------------------
+The figure below presents an understanding of the challenges for promoting and adopting blockchain solutions within IBTTA.
+  .. image:: IBTTAChallenges-1.png
+
 Additional References
 -----------------------------------
 
-  .. image:: IBTTAChallenges-1.png
+
+
+- `Temporal Properties Of Smart Contracts <https://github.com/Zilliqa/scilla/blob/master/docs/temporal-isola18.pdf>`__
+- `Scilla Specificaton <https://github.com/Zilliqa/scilla/blob/master/docs/scilla-spec.pdf>`__
 
 
 Team/Acknowledgments
