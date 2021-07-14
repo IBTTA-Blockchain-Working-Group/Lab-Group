@@ -10,6 +10,7 @@ library AgencyLib
  to present a smart-contract alternative to handle the requirements.
  *)
 
+
 type Agency =  | Agency of String
 type VINNumber = | VINNumber of String
 type LPState = | LPState of String
@@ -104,6 +105,17 @@ type LaneMode =
   | PersonnedETCCarpoolWithConfirmation (* confirmation needs to be a transition *)
 
 
+(* A potential either representation, we will notice some duplication of types here, as opposed to a generic 
+solution based on Either. As we can see that the types will explode if we try to define them by hand. 
+In the absence of Either, option type, that is a built-in type in Scilla is a better alternative.
+*)
+
+(* A proposed alternative to handling errors.
+type Either = 
+  | EitherA of AgencyError LaneMode
+  | EitherB of AgencyError TransponderType
+
+*)
 
 
 (* Some constants *)
