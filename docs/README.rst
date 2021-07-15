@@ -1,5 +1,5 @@
-Lab-Group
-=========
+Lab-Group Goals and Objectives
+================================
 
 Introduction
 ------------
@@ -27,16 +27,25 @@ Definition of Minimal Viable Products (MVP) - 2021
 Our goal for the MVPs that we would like to develop is to cover the
 following aspects of Tolling and Transportation:
 
-::
+    * Fleet management
 
-    - Fleet management
-      * A smart contract to on-board and manage fleet accounts.
-    - Interoperability (IOP)
-      * A contract to allow various to interact with each other through a single customer account.
-    - Tolling and customer support working group's model.
-      - Third Party Agreements - contracts to allow onboarding vendors with contractual rules embedded in the contract.
-      - Tag Request API - contracts to reflect the tag request apis
-      - Tag Disposition API (this might not be needed if the checks are in place that the tag request contract is only accessibly by the agency?) - functions within the contracts to allow for checks and balances.
+      * Contracts to on-board and manage fleet accounts.
+    * Interoperability (IOP)
+  
+      * Contracts to allow various to interact with each other through a single customer account.
+  
+    * Tolling and customer support working group's model.
+
+      * Third Party Agreements
+
+        * Contracts to allow on-boarding vendors with contractual rules embedded in the contract.
+      * Tag Request API
+        
+        * Contracts to reflect the tag request APIs in the form of business rules.
+
+      * Tag Disposition API (this might not be needed if the checks are in place that the tag request contract is only accessibly by the agency?)
+         
+         * Functions within the contracts to allow for system-level checks and balances.
 
 We use
 `Monday <https://milliganpartners.monday.com/boards/1200830450/>`__, a
@@ -84,14 +93,11 @@ The flow of applying these contracts will most likely originate from a
 mobile application. The mobile application will help register a user
 owning/using a tag with a tag specific contract. The request to
 activation will originate from the mobile application, though, there may
-be a need to put an escape hatch for suspending a tag.
+be a need to put an escape hatch for suspending a tag. We envision the following on-boarding flows
 
-We envision the following on-boarding flows - Tag owner through her(his)
-mobile application. - Tag agency through a web application to list its
-agency rates, and other static information. - Third party providers such
-as, where their acceptance of terms and conditions is stored on the
-blockchain. + Toll operators + Application developers + Service
-providers
+  * Tag owner through her(his) mobile application. 
+  * Tag agency through a web application to list its agency rates, and other static information. 
+  * Third party providers such as toll operators, application developers, and service providers can manage their terms and conditions on the distributed ledger.
 
 Tag registration
 ~~~~~~~~~~~~~~~~
