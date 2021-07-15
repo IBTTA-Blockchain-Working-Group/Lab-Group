@@ -21,8 +21,8 @@ aspect of Tolling and Transportation that you would like to see
 addressed, please reach out to us, we will be happy to discuss and
 prioritize them with you.
 
-Definition of MVPs - 2021
--------------------------
+Definition of Minimal Viable Products (MVP) - 2021
+--------------------------------------------------------
 
 Our goal for the MVPs that we would like to develop is to cover the
 following aspects of Tolling and Transportation:
@@ -30,11 +30,13 @@ following aspects of Tolling and Transportation:
 ::
 
     - Fleet management
+      * A smart contract to on-board and manage fleet accounts.
     - Interoperability (IOP)
+      * A contract to allow various to interact with each other through a single customer account.
     - Tolling and customer support working group's model.
-      - Third Party Agreements
-      - Tag Request API
-      - Tag Disposition API (this might not be needed if the checks are in place that the tag request contract is only accessibly by the agency?)
+      - Third Party Agreements - contracts to allow onboarding vendors with contractual rules embedded in the contract.
+      - Tag Request API - contracts to reflect the tag request apis
+      - Tag Disposition API (this might not be needed if the checks are in place that the tag request contract is only accessibly by the agency?) - functions within the contracts to allow for checks and balances.
 
 We use
 `Monday <https://milliganpartners.monday.com/boards/1200830450/>`__, a
@@ -45,7 +47,7 @@ Definition of Smart Contracts
 -----------------------------
 
 A sample contract for `Toll Guarantee
-State <./docs/TollGuaranteeStateIBTTA.pdf>`__ state machine that is
+State <https://github.com/IBTTA-Blockchain-Working-Group/Lab-Group/blob/master/docs/TollGuaranteeStateIBTTA.pdf>`__ state machine that is
 relevant for agencies supporting the IAG format. Agencies supporting
 NIOP don't have to incur this risk attribution. We use this contract as
 an opportunity to propose continuous compounding for managing risk on a
@@ -56,9 +58,11 @@ various timezones.
 Choice of Ledgers
 -----------------
 
-Our choice of ledger is based on some of the features listed here: -
-Sharding is built-in - Eco-friendly mining - Safe-by-design smart
-contract language (more about this later)
+Our choice of ledger is based on some of the features listed here:
+
+  - Sharding is built-in
+  - Eco-friendly mining
+  - Safe-by-design smart contract language (more about this later)
 
 We began the effort by evaluating `Zilliqa <https://www.zilliqa.com>`__,
 though we will be looking to port to other languages/ledgers if a
@@ -116,6 +120,9 @@ to have access to. The contracts need to disallow suspension and
 deactivation of contracts from the mobile wallet to prevent loss of
 control of the underlying asset.
 
+* Notes: Each contract can dis-allow modifications to its internal fields based on the definition of an owner or the maximum block number before with modifications can be performed on the contract. These allow a contract to have a sense of finality and transfer assets as needed. *
+
+
 IBTTA Blockchain Challenges
 ---------------------------------
 The figure below presents an understanding of the challenges for promoting and adopting blockchain solutions within IBTTA.
@@ -123,8 +130,6 @@ The figure below presents an understanding of the challenges for promoting and a
 
 Additional References
 -----------------------------------
-
-
 
 - `Temporal Properties Of Smart Contracts <https://github.com/Zilliqa/scilla/blob/master/docs/temporal-isola18.pdf>`__
 - `Scilla Specificaton <https://github.com/Zilliqa/scilla/blob/master/docs/scilla-spec.pdf>`__
