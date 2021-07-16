@@ -47,6 +47,7 @@ extensions = ['sphinx.ext.autodoc',
 templates_path = ['_templates']
 
 html_theme = "sphinx_rtd_theme"
+html_logo = "ibtta_bc_logo.png"
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
