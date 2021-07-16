@@ -13,6 +13,7 @@ Welcome to ibtta-blockchain-wg's documentation!
    README
    BusinessRules
    ExampleContracts
+   StableCoins
    ErrorMonad
 
 Indices and tables

@@ -1,7 +1,9 @@
 Business Rules for interoperability
 ==========================================
 
-This section paraphrases some of the business rules for national interoperability (NIO) from an RFP document. The goal of this section is to highlight some of the aspects of the business rules and their implementations on a distributed ledger. 
+This section paraphrases some of the business rules for national interoperability (NIOP) from an RFP document. The goal of this section is to highlight some of the aspects of the business rules and their implementations on a distributed ledger.
+*Note: The rules specified for NIOP does not necessarily require an agency to participate in them. This document, though, presents a rationale for perhaps following these rules as they can be easily implemented and maintained.*
+
 
   .. image:: niop_image.png
 
@@ -12,7 +14,7 @@ The intent is not to create a sales pitch for using blockchain, rather to list t
 
 Single Account per customer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  Interoperable agencies shall establish a system that enables a customer to use one Account to pay tolls at all Nationally Interoperable Agencies without the need to take any further action regarding that account or the associated Tags or plates.
+  Interoperable agencies shall establish a system that enables a customer to use one Account to pay tolls at all Nationally Interoperable Agencies without the need to take any further action regarding that account or the associated Tags or plates. Although, this is desirable, there are cases where a customer might be taking advantage of local agency discounts. Such use-cases are modeled by linking various accounts on the blockchain, each with a specific rule applicable for the agency.
 
 Keep information update
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -20,7 +22,7 @@ Keep information update
 
 Tags need to be certified
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  * Electronic toll collection equipment used by interoperable Agencies to read and/or write back tags shall meet the requirements of SeGo, 6C or TDM Interop protorols and be certified for use.
+  * Electronic toll collection equipment used by interoperable Agencies to read and/or write back tags shall meet the requirements of SeGo, 6C or TDM Interop protorols and be certified for use. Certification of each of these devices could also be represented as contracts that get executed as part of the certification process (though this is not covered in the current definition of the MVP.).
 
   * NIOP hubs, exchanging data, shall comply with all documented interoperability requirements agreed upon, including, but not limited to, these NIOP Business Rules and the ICD.
 
