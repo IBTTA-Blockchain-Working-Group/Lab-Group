@@ -19,7 +19,7 @@ contract TagChangeRequestContract (agency : Agency)
       LPState empty
   field lpNumber : LPNumber = let empty = "" in LPNumber empty
   field lpType : LPType = Passenger (* default *)
-  field vehicleOccupancy : VehicleOccupancy = let defValue = Uint32 4 in VehicleOccupancy defValue (* Another default *)
+  field vehicleOccupancy : VehicleOccupancy = let defValue = Uint32 1 in SOV defValue (* Another default *)
   field vehicleClass : VehicleClass = let defValue = Uint32 2 in VehicleClass defValue (* a sedan *)
   field requestType : TagChangeRequest = TagActivation (* Default *)
   field requestNote : String = "Enter the notes for this request here"
