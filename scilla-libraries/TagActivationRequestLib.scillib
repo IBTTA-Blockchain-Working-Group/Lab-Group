@@ -4,7 +4,7 @@ import BoolUtils
 
 library TagActivationRequestLib
 
-type TagChangeRequest = | TagActivation | TagDeactivation | TagSuspension | Occupancy
+type TagChangeRequest = | TagActivation | TagDeactivation | TagSuspension | TagOccupancy
 (* Should print as Y or N *)
 type DispositionStatus = | Active | NotActive
 type DispositionNote = | DispositionNote of String
@@ -25,8 +25,13 @@ type LPType = | AllTerrain | Ambulance | CampTrailer | Camper | Combination
               | ServiceBus | Snowmobile | SpecialMobileEquip
               | StateVehicle | StateServBus | StateSTV
 
-type VehicleOccupancy = | VehicleOccupancy of Uint32
+type VehicleOccupancy = | SOV of Uint32
+                        | HOV2 of Uint32
+                        | HOV3 of Uint32
+
 type VehicleClass = | VehicleClass of Uint32 (* Any number between 2 - 6 axles *)
+
+(* TODO: change the type to accept integer code *)
 type VehicleStatus = | ValidStatus | InvalidVehicleStatus (* Valid = 0, Invalid = 2 *)
 type FacilityCode = | FacilityCode of String
 type PlazaCode = | PlazaCode of String
@@ -60,3 +65,187 @@ type EZPassAccountType =
   | PrivateAccountType
   | ViolationAvoidanceAccountType
   | RetailTransponder
+
+
+let toStringTagChangeRequest =
+  fun (aTagChangeRequest : TagChangeRequest) =>
+    match aTagChangeRequest with
+      | TagActivation => "Tag Activation Request"
+      | TagDeactivation => "Tag Deactivation Request"
+      | TagSuspension => "Tag Suspension Request"
+      | TagOccupancy => "Tag Occupancy Request"
+    end
+
+let toStringDispositionStatus =
+  fun (aDispositionStatus : DispositionStatus) =>
+    match aDispositionStatus with
+      | Active => "Active Disposition"
+      | NotActive => "Disposition Not Active"
+    end
+
+let toStringTagID =
+  fun (aTagID : TagID) =>
+    match aTagID with
+      | TagID aTag =>
+        let prefix = "TagID : " in
+        builtin concat prefix aTag
+    end
+
+let toStringLPType =
+  fun (aLPType : LPType) =>
+    match aLPType with
+      | AllTerrain => "AllTerrain"
+      | Ambulance => "Ambulance"
+      | CampTrailer => "CampTrailer"
+      | Camper => "Camper"
+      | Combination => "Combination"
+      | Commercial => "Commercial"
+      | CongressionalMedalOfHonor => "CongressionalMedalOfHonor"
+      | Construction => "Construction"
+      | Dealer => "Dealer"
+      | ExperimentalTest => "ExperimentalTest"
+      | Factory => "Factory"
+      | Farm => "Farm"
+      | FireApparatus => "FireApparatus"
+      | GeneralDistrictBus => "GeneralDistrictBus"
+      | Handicapped => "Handicapped"
+      | HandicappedMotorcycle => "HandicappedMotorcycle"
+      | Hearse => "Hearse"
+      | Historical => "Historical"
+      | Interstate => "Interstate"
+      | Legislature => "Legislature"
+      | Livery => "Livery"
+      | Motorcycle => "Motorcycle"
+      | Municipal => "Municipal"
+      | Passenger => "Passenger"
+      | Permits => "Permits"
+      | POW_CMPR => "POW_CMPR"
+      | POW_COMB => "POW_COMB"
+      | POW_Veteran => "POW_Veteran"
+      | PublicServiceBus => "PublicServiceBus"
+      | SchoolBus => "SchoolBus"
+      | SchoolBusLivery => "SchoolBusLivery"
+      | Senate => "Senate"
+      | ServiceBus => "ServiceBus"
+      | Snowmobile => "Snowmobile"
+      | SpecialMobileEquip => "SpecialMobileEquip"
+      | StateVehicle => "StateVehicle"
+      | StateServBus => "StateServBus"
+      | StateSTV => "StateSTV"
+    end
+
+let toStringVehicleOccupancy =
+  fun (occ : VehicleOccupancy) =>
+    match occ with
+      | SOV aNumber =>
+            let desc = "SOV " in
+            let value = builtin to_string aNumber in
+              builtin concat desc value
+      | HOV2  aNumber =>
+          let desc = "HOV2 " in
+          let value = builtin to_string aNumber in
+          builtin concat desc value
+      | HOV3 aNumber =>
+          let desc = "HOV3" in
+          let value = builtin to_string aNumber in
+          builtin concat desc value
+    end
+
+let toStringVehicleClass =
+  fun (vehicleClass : VehicleClass) =>
+    match vehicleClass with
+      | VehicleClass anInt =>
+        let v = builtin to_string anInt in
+        let prefix = "Vehicle Class: " in
+        builtin concat prefix v
+    end
+
+let toStringVehicleStatus =
+  fun (vehicleStatus : VehicleStatus) =>
+    match vehicleStatus with
+      | ValidStatus => "ValidStatus: 0"
+      | InvalidVehicleStatus => "InvalidVehicleStatus: 2"
+    end
+
+let toStringFacilityCode =
+  fun (facilityCode : FacilityCode) =>
+    match facilityCode with
+      | FacilityCode aString =>
+        let prefix = "FacilityCode:" in
+        builtin concat prefix aString
+    end
+
+let toStringPlazaCode =
+  fun (plazaCode : PlazaCode) =>
+    match plazaCode with
+      | PlazaCode aPlazaCode =>
+        let prefix = "PlazaCode:" in
+        builtin concat prefix aPlazaCode
+    end
+
+let toStringLaneCode =
+  fun (laneCode : LaneCode) =>
+    match laneCode with
+      | LaneCode aLaneCode =>
+        let prefix = "LaneCode:" in
+        builtin concat prefix aLaneCode
+    end
+
+let toStringTransactionTime =
+  fun (transTime : TransactionTime) =>
+    match transTime with
+      | TransactionTime aLongValue =>
+          let prefix = "Transaction Time (UTC): " in
+          let tVal = builtin to_string aLongValue in
+          builtin concat prefix tVal
+    end
+
+let toStringLPNumber =
+  fun (lpNumber : LPNumber) =>
+    match lpNumber with
+      | LPNumber aString =>
+        let prefix = "License Plate : " in
+        builtin concat prefix aString
+    end
+
+let toStringPostFareAmount =
+  fun (anAmount : PostFareAmount) =>
+    match anAmount with
+      | PostFareAmount aVal =>
+        let prefix = "Fare Amount : " in
+        let val = builtin to_string aVal in
+        builtin concat prefix val
+    end
+
+let toStringTransactionPostType =
+  fun (aPostType : TransactionPostType) =>
+    match aPostType with
+      | POSTSuccessful => "POSTSuccessful"
+      | POSTWithLicensePlate => "POSTWithLicensePlate"
+      | NPOSTHomeAgencyAck => "NPOSTHomeAgencyAck"
+      | RejectedInsufficientInformation => "RejectedInsufficientInformation"
+      | RejectedLicensePlate => "RejectedLicensePlate"
+      | RejectedAccountClosed => "RejectedAccountClosed"
+      | RejectedOldTransaction => "RejectedOldTransaction"
+      | RejectedAccountInBadState => "RejectedAccountInBadState"
+      | RejectedInvalidTransactionData => "RejectedInvalidTransactionData"
+      | RejectedTagBadState => "RejectedTagBadState"
+      | RejectedDuplicateTransaction => "RejectedDuplicateTransaction"
+    end
+
+let toStringEZPassStatus =
+  fun (ezpStatus : EZPassStatus) =>
+    match ezpStatus with
+      | EZPass => "EZPass"
+      | EZPassPlus => "EZPassPlus"
+    end
+
+let toStringEZPassAccountType =
+  fun (ezPassAccountType : EZPassAccountType) =>
+    match ezPassAccountType with
+      | BusinessAccountType => "BusinessAccountType"
+      | FleetAccountType => "FleetAccountType"
+      | PrivateAccountType => "PrivateAccountType"
+      | ViolationAvoidanceAccountType => "ViolationAvoidanceAccountType"
+      | RetailTransponder => "RetailTransponder"
+    end

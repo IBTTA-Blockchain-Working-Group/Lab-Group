@@ -6,7 +6,7 @@ library AgencyLib
  (**
  Library design based on the Tolling and Customer Service
  Working Group's ICD document.
- Some of the business rules that are documented in NIOP are listed here with the intent 
+ Some of the business rules that are documented in NIOP are listed here with the intent
  to present a smart-contract alternative to handle the requirements.
  *)
 
@@ -14,7 +14,8 @@ library AgencyLib
 type Agency =  | Agency of String
 type VINNumber = | VINNumber of String
 type LPState = | LPState of String
-type LPCounty = | LPCount of String
+
+type LPCounty = | LPCounty of String
 type TollOperator = | TollOperator of String
 type AccountManagement = | MobileApp | TransponderDistributor | TransponderRetail
 type AccountTool = | Smartphone | CustomerServiceCenter | MobileAppTool
@@ -31,7 +32,7 @@ type TransponderCost = | TransponderCost of Uint64
 type AppDownloadCost = | AppDownloadCost of Uint64
 type ReloadFees = | ReloadFees of Uint64
 
-type AgencyError = 
+type AgencyError =
   | NotHomeAgency of String
   | AwayAgencyCannotAuthorizeFee of String
 
@@ -41,7 +42,7 @@ type SystemError =
   | UnknownPlaza of Uint64 String
   | UnknownLane of Uint64 String
   | MissingRequiredField of Uint64 String
-  | TagNotFound of Uint64 String 
+  | TagNotFound of Uint64 String
   | DuplicateTransaction of Uint64 String
   | FormatError of Uint64 String
   | TagValidationOutOfDate of Uint64 String
@@ -55,7 +56,7 @@ type SystemError =
 
 (* Some of these types are borrowed from the IAG specification document.*)
 
-type DiscountCode = 
+type DiscountCode =
   | StatenIslandDiscountCode
   | GreenDiscountCode
   | CarpoolDiscountCode
@@ -75,7 +76,7 @@ type TagStatus =
   | InvalidTagStatus
   | LostOrStolenTagStatus
 
-type TagProtocol = 
+type TagProtocol =
   | TDM
   | SeGo
   | Protocol_6C
@@ -84,14 +85,14 @@ type TagProtocol =
   | Sego_C6
   | TDMSEGO6C
 
-type TagMount = 
+type TagMount =
   | Interior
   | LicensePlateMount
   | RoofMount
   | Headlamp
   | VehicleIntegrated (* connected devices*)
 
-type TransponderType = 
+type TransponderType =
   | Switchable
   | LicensePlate
   | Feedback
@@ -105,13 +106,13 @@ type LaneMode =
   | PersonnedETCCarpoolWithConfirmation (* confirmation needs to be a transition *)
 
 
-(* A potential either representation, we will notice some duplication of types here, as opposed to a generic 
-solution based on Either. As we can see that the types will explode if we try to define them by hand. 
+(* A potential either representation, we will notice some duplication of types here, as opposed to a generic
+solution based on Either. As we can see that the types will explode if we try to define them by hand.
 In the absence of Either, option type, that is a built-in type in Scilla is a better alternative.
 *)
 
 (* A proposed alternative to handling errors.
-type Either = 
+type Either =
   | EitherA of AgencyError LaneMode
   | EitherB of AgencyError TransponderType
 
@@ -122,7 +123,160 @@ type Either =
 let panynj : Agency = let str = "PANYNJ" in Agency str
 let nysba : Agency = let str = "NYSBA" in Agency str
 let nysta : Agency = let str = "NYSTA" in Agency str
-let nysta : Agency = let str = "MTA" in Agency str
-let nysta : Agency = let str = "DRPA" in Agency str
-let nysta : Agency = let str = "SJTA" in Agency str
-let nysta : Agency = let str = "NJHA" in Agency str
+let nymta : Agency = let str = "MTA" in Agency str
+let nydrpa : Agency = let str = "DRPA" in Agency str
+let nysjta : Agency = let str = "SJTA" in Agency str
+let nynjha : Agency = let str = "NJHA" in Agency str
+
+
+
+let toStringAgency =
+  fun (a : Agency) =>
+    match a with
+       | Agency aString => let prefix = "Agency" in builtin concat prefix aString
+    end
+
+let toStringVINNumber =
+  fun (aVinNumber : VINNumber) =>
+    match aVinNumber with
+      | VINNumber aVin => let prefix = "VIN Number " in builtin concat prefix aVin
+    end
+
+let toStringLPState =
+  fun (anLPState : LPState) =>
+    match anLPState with
+      | LPState aState =>
+          let prefix = "License Plate State " in
+          builtin concat prefix aState
+    end
+
+let toStringLPCounty =
+  fun (aCounty : LPCounty) =>
+    match aCounty with
+      | LPCounty aCountyString =>
+          let prefix = "License Plate County:" in
+          builtin concat prefix aCountyString
+    end
+let toStringTollOperator =
+  fun (aTollOperator : TollOperator) =>
+    match aTollOperator with
+      | TollOperator operator =>
+        let prefix = "Toll Operator: " in
+        builtin concat prefix operator
+      end
+
+let toStringAgencyError =
+  fun (agencyError : AgencyError) =>
+    match agencyError with
+      | NotHomeAgency agencyName =>
+        let desc = "Not Home Agency" in builtin concat desc agencyName
+      | AwayAgencyCannotAuthorizeFee agencyName =>
+        let desc = "Away Agency Cannot Authorize Fee" in builtin concat desc agencyName
+    end
+
+let toStringSystemError =
+  fun (systemError : SystemError) =>
+    match systemError with
+      | GeneralError code desc =>
+          let codeS = builtin to_string code in builtin concat codeS desc
+      | InvalidData code desc =>
+          let codeS = builtin to_string code in builtin concat codeS desc
+      | UnknownPlaza code desc =>
+          let codeS = builtin to_string code in builtin concat codeS desc
+      | UnknownLane code desc =>
+          let codeS = builtin to_string code in builtin concat codeS desc
+      | MissingRequiredField code desc =>
+          let codeS = builtin to_string code in builtin concat codeS desc
+      | TagNotFound code desc =>
+          let codeS = builtin to_string code in builtin concat codeS desc
+      | DuplicateTransaction code desc =>
+          let codeS = builtin to_string code in builtin concat codeS desc
+      | FormatError code desc =>
+          let codeS = builtin to_string code in builtin concat codeS desc
+      | TagValidationOutOfDate code desc =>
+          let codeS = builtin to_string code in builtin concat codeS desc
+      | TransactionOutOfDate code desc =>
+          let codeS = builtin to_string code in builtin concat codeS desc
+      | InvalidFromAgency anAgency =>
+          let agencyStr = toStringAgency anAgency in
+          let agencyPrefix = "Inavalid From Agency " in
+          builtin concat agencyPrefix agencyStr
+      | InvalidVINNumber aVinNumber => "Invalid VIN Number"
+      | InvalidAccountInfo aString => "Invalid Account Info"
+      | InvalidState aString => "Invalid State"
+      | InvalidStatus aString => "Invalid Status"
+      | InvalidDiscountPlan => "Invalid Discount Plan"
+    end
+
+let toStringAccountManagement =
+  fun (account : AccountManagement) =>
+    match account with
+      | MobileApp => "Mobile Application"
+      | TransponderDistributor => "Transponder Distributor"
+      | TransponderRetail => "Transponder Retail"
+    end
+
+let toStringAccountTool =
+  fun (accountTool : AccountTool) =>
+    match accountTool with
+      | Smartphone => "Smartphone"
+      | CustomerServiceCenter => "Customer Service Center"
+      | MobileAppTool => "Mobile Application"
+    end
+
+let toStringAccountIdentifier =
+  fun (accntIdentifier : AccountIdentifier) =>
+    match accntIdentifier with
+      | VehicleLicensePlate => "Vehicle License Plate"
+      | TransponderIdentifier => "Transponder Identifier"
+    end
+
+let toStringTagStatus =
+  fun (aTagStatus : TagStatus) =>
+  match aTagStatus with
+    | ValidTagStatus => "Tag Valid"
+    | LowBalance => "Low Balance on Tag"
+    | InvalidTagStatus => "Invalid Tag"
+    | LostOrStolenTagStatus => "Tag Reported Lost or Stolen"
+  end
+
+let printLaneMode =
+  fun (aLaneMode : LaneMode) =>
+    match aLaneMode with
+      | ETCOnly => "ETC only dedicated"
+      | ETCACM => "ETC ACM"
+      | PersonnedETC => "Personnel ETC"
+      | PersonnedETCCarpool => "Personnel ETC For Carpool"
+      | PersonnedETCCarpoolWithConfirmation => "Personnel ETC for Carpool with confirmation"
+    end
+
+let printTransponderType =
+  fun (transType : TransponderType) =>
+    match transType with
+      | Switchable => "Switchable"
+      | LicensePlate => "License Plate"
+      | Feedback => "Feedback"
+      | FeedbackSwitchable => "Feedback switchable"
+    end
+
+let printTagMount =
+  fun (tagMount : TagMount) =>
+    match tagMount with
+      | Interior => "Interior"
+      | LicensePlateMount => "License Plate Mount"
+      | RoofMount => "Roof mount"
+      | Headlamp => "Head lamp"
+      | VehicleIntegrated => "Integrated with vehicle"
+    end
+
+let printTagProtocol =
+  fun (tagProtocol : TagProtocol) =>
+    match tagProtocol with
+      | TDM => "TDM"
+      | SeGo => "Se GO"
+      | Protocol_6C => "Protocol 6C"
+      | TDM_SEGO => "TDM SEGO"
+      | TDM_6C => "TDM 6C"
+      | Sego_C6 => "Sego C6"
+      | TDMSEGO6C => "TDM SEGO 6C"
+    end
