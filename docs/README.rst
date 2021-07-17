@@ -48,8 +48,7 @@ following aspects of Tolling and Transportation:
          * Functions within the contracts to allow for system-level checks and balances.
 
 We use
-`Monday <https://milliganpartners.monday.com/boards/1200830450/>`__, a
-public company, to capture our work. Please reach out to @kevinko102496
+`Monday <https://milliganpartners.monday.com/boards/1200830450/>`__, to manage our road map. Please reach out to @kevinko102496
 to be added to the board to influence our backlog and priorities.
 
 Definition of Smart Contracts
@@ -151,3 +150,5 @@ We wish to thank these invaluable contributors and teammates:
 -  Matt Milligan, `Milligan
    Partners <https://www.milliganpartners.com>`__
 -  Devang Patel, `Kyra Solutions <https://www.kyrasolutions.com>`__
+-  Yufan Luo, `Milligan Partners <https://www.milliganpartners.com>`__
+-  Nikolaos Efstathopoulos `Nikolaos Efstathopoulos <https://www.ibigroup.com/>`__
