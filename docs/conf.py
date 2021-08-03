@@ -58,7 +58,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'ibtta-blockchain-wg'
+project = u'Goals and Objectives of the Blockchain Working Group for IBTTA.'
 copyright = u'2021, Kevin Ko, Devang Patel, Matt Milligan, Yufan Luo, Nikolaos Efstathopoulos, Dinkar Ganti'
 author = u'Kevin Ko, Devang Patel, Matt Milligan, Yufan Luo, Nikolaos Efstathopoulos, Dinkar Ganti'
 
@@ -132,11 +132,11 @@ htmlhelp_basename = 'ibtta-blockchain-wgdoc'
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     #
-    # 'papersize': 'letterpaper',
+    'papersize': 'a4paper',
 
     # The font size ('10pt', '11pt' or '12pt').
     #
-    # 'pointsize': '10pt',
+    'pointsize': '9pt',
 
     # Additional stuff for the LaTeX preamble.
     #
@@ -152,7 +152,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'ibtta-blockchain-wg.tex', u'ibtta-blockchain-wg Documentation',
-     u'Kevin Ko, Devang Patel, Matt Milligan, Yufan Luo, Nikolaos Efstathopoulos, Dinkar Ganti', 'manual'),
+     u'K.Ko, D.Patel, M.Milligan, Y.Luo, N.Efstathopoulos, D.Ganti', 'manual'),
 ]
 
 
