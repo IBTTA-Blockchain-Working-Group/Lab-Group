@@ -132,7 +132,7 @@ htmlhelp_basename = 'ibtta-blockchain-wgdoc'
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     #
-    'papersize': 'a3paper',
+    'papersize': 'a4paper',
 
     # The font size ('10pt', '11pt' or '12pt').
     #
@@ -152,7 +152,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'ibtta-blockchain-wg.tex', u'ibtta-blockchain-wg Documentation',
-     u'Kevin Ko, Devang Patel, Matt Milligan, Yufan Luo, Nikolaos Efstathopoulos, Dinkar Ganti', 'manual'),
+     u'K.Ko, D.Patel, M.Milligan, Y.Luo, N.Efstathopoulos, D.Ganti', 'manual'),
 ]
 
 
