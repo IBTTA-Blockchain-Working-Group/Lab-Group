@@ -116,6 +116,11 @@ term of the contract. Zilliqa has a SGDZIL stable coin, therefore forex
 rate variations will need to be accounted for when converting to the
 target country (default to USD).
 
+The usage of standard smart contracts between service providers and toll chargers can:
+1) Allow for industry-wide standardization with relatively low O&M costs. There will be an upfront cost for the creation of the standard smart contracts;
+2) Remove friction from adding new entities (service providers or toll chargers) to the scheme;
+3) further reduce O&M costs for the settlement of transactions, using a stable coin. 
+
 Escape hatch
 ~~~~~~~~~~~~
 
@@ -151,4 +156,4 @@ We wish to thank these invaluable contributors and teammates:
    Partners <https://www.milliganpartners.com>`__
 -  Devang Patel, `Kyra Solutions <https://www.kyrasolutions.com>`__
 -  Yufan Luo, `Milligan Partners <https://www.milliganpartners.com>`__
--  Nikolaos Efstathopoulos `Nikolaos Efstathopoulos <https://www.ibigroup.com/>`__
+-  Nikolaos Efstathopoulos `IBI Group <https://www.ibigroup.com/>`__
